@@ -1,7 +1,7 @@
 {
   "development": {
     "database": "anti-social",
-    "storage": "./database.sqlite",
+    "storage": "./data/database.sqlite",
     "dialect": "sqlite"
   },
   "test": {
