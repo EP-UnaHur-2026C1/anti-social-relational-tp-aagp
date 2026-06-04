@@ -2,7 +2,15 @@ const { Comment } = require("../models");
 
 const obtenerComentarios = async (req,res) => {
     try {
-        const comentarios = await Comment.findAll();
+        const comentarios = await Comment.findAll(/*
+            include: [
+                {
+                    model: User,
+                    as: "user",
+                    attributes: ["id", "nickname"]
+                }
+            ]    
+        */);
 
         res.status(200).json(comentarios);
 
@@ -23,6 +31,8 @@ const crearComentario = async (req,res) => {
         const { content } = req.body;
         const comentario = await Comment.create({
             content
+            //userId: req.user.id,
+            //postId: req.post.id
         });
 
         res.status(201).json(comentario);
