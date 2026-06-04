@@ -1,4 +1,4 @@
-const {Postimage} = require('../models')
+const {PostImage} = require('../models')
 
 const validarPostImgId = async (req,res,next) =>{
     try {

@@ -38,7 +38,7 @@ const obtenerPostImage = async(req,res)=>{
 const actualizarPostImg = async (req,res) =>{
     try {
         const {id} = req.params;
-        const {url} = req.body;
+        const {url,postId} = req.body;
         const postImage = req.postImage;
         await postImage.update({
             url,
