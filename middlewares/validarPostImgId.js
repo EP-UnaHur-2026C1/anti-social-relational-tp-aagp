@@ -7,7 +7,7 @@ const validarPostImgId = async (req,res,next) =>{
         if(!postimage){
             return res.status(404).json({message: "PostImage no encontrado"})
         }
-        req.postimage = postimage
+        req.postImage = postimage
         next()
     } catch (error) {
         res.status(500).json({

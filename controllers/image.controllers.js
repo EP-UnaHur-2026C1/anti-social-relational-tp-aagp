@@ -2,10 +2,10 @@ const {PostImage, Post} = require('../models')
 
 const crearPostImage = async(req,res) =>{
     try {
-        const {url,post_id} = req.body
+        const {url,postId} = req.body
         const postImg = await PostImage.create({
             url,
-            post_id
+            postId
         })
         res.status(200).json(postImg)
     } catch (error) {
@@ -17,7 +17,7 @@ const crearPostImage = async(req,res) =>{
 const obtenerPostsImage = async(req,res)=>{
     try {
         const postImg = await PostImage.findAll({
-            attributes : ['url','post_id'],
+            attributes : ['url','postId'],
             include:{
                 model: Post,
                 as: "post",
@@ -31,13 +31,18 @@ const obtenerPostsImage = async(req,res)=>{
         })
     }
 }
+const obtenerPostImage = async(req,res)=>{
+    const postImg = req.postImage;
+    res.status(200).json(postImg)
+}
 const actualizarPostImg = async (req,res) =>{
     try {
         const {id} = req.params;
         const {url} = req.body;
         const postImage = req.postImage;
         await postImage.update({
-            url
+            url,
+            postId
         });
         res.status(200).json(postImage)
     } catch (error) {
@@ -64,5 +69,6 @@ module.exports = {
     crearPostImage,
     eliminarPostImage,
     obtenerPostsImage,
+    obtenerPostImage,
     actualizarPostImg
 }

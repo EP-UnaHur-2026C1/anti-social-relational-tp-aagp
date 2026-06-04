@@ -30,6 +30,11 @@ const obtenerTags = async (req,res)=>{
         })
     }
 }
+const obtenerTag = async(req,res) =>{
+    const tag = req.tag;
+    res.status(200).json(tag);
+}
+
 const actualizarTag = async (req,res) =>{
     try {
         const {id} = req.params;
@@ -62,6 +67,7 @@ const eliminarTag = async(req,res) => {
 module.exports = {
     crearTag,
     obtenerTags,
+    obtenerTag,
     actualizarTag,
     eliminarTag
 }
