@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const db = require("./models");
-const routerPosts = require("./routes/postRoutes")
+const routerPosts = require("./routes/post.routes");
 
 require("dotenv").config();
 

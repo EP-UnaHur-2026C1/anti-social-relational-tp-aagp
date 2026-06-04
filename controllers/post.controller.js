@@ -14,9 +14,13 @@ const obtenerPosts = async (req,res) => {
 }
 
 const obtenerPost = (req,res) => {
-    const { id } = req.params
-    const post = req.post;
-    res.status(200).json(post);
+    try {
+        const { id } = req.params
+        const post = req.post;
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(500).json({error: "Error al obtener el post."})
+    }
 } /* sin relaciones:
     try {
         const { id } = req.params
@@ -36,7 +40,7 @@ const crearPost = async (req,res) => {
         res.status(201).json(post);
     } catch (error) {
         res.status(500).json({
-            error: "Error al crear el Post."
+            error: error.message //error: "Error al crear el Post."
         });
     }
 }
