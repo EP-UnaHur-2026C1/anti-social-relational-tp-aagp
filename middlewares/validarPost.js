@@ -1,7 +1,7 @@
-const schemaProducto = require('../schemas/post.schema');
+const schemaPost = require('../schemas/post.schema');
 
 const validarPost = (req, res, next) => {
-    const { error } = schemaProducto.validate(req.body)
+    const { error } = schemaPost.validate(req.body)
     if(error){
         return res.status(400).json({error: error.details[0].message})
     }
