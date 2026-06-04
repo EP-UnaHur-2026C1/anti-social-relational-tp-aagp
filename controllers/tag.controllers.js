@@ -19,7 +19,7 @@ const obtenerTags = async (req,res)=>{
             attributes : ['nombre'],
             include: {
                 model: Post,
-                as: "post",
+                as: "posts",
                 attributes: ['texto','fecha']
             }
         })

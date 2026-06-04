@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         through: "PostTag",
         foreignKey: "tagId",
         otherKey: "postId",
-        as: "post"
+        as: "posts"
       })
     }
   }
