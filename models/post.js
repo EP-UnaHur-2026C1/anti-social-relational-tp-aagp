@@ -9,26 +9,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
         Post.belongsTo(models.User, {
-          foreignKey: 'nickName' // o 'userId'
-          // as: 'nickName'
+          foreignKey: 'userId',
+          as: 'user'
         });
         Post.hasMany(models.Comment, {
-          foreignKey: 'commentId',
-          as: 'comentarios'
+          foreignKey: 'postId',
+          as: 'comments'
         });
         Post.hasMany(models.PostImage, {
-          foreignKey: 'postImageId',
-          as: 'imagenes'
+          foreignKey: 'postId',
+          as: 'images'
         }); 
-        /*
-          Post.belongsToMany(models.Tag, {
-            through: models.PostTags,
-            foreignKey: 'postId',
-            foreignKey: 'tagId',
-            as: tags
-          });
-        */
-      
+        Post.belongsToMany(models.Tag, {
+          through: "PostTag",
+          foreignKey: 'postId',
+          otherKey: 'tagId',
+          as: 'tags'
+        });
     }
   }
   Post.init({
@@ -36,8 +33,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW
     },
-    texto: DataTypes.STRING
-  }, {
+    texto: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    userId: DataTypes.INTEGER
+  }, 
+  {
     sequelize,
     modelName: 'Post',
   });
