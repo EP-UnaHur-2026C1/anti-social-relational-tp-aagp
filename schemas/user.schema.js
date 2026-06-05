@@ -14,7 +14,7 @@ const userSchema = Joi.object({
     "string.email": "El email debe ser un correo válido (ejemplo: usuario@dominio.com)",
     "any.required": "El email es obligatorio"
   }),
-  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).messages({
+  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required().messages({
     "string.base": "La contraseña debe ser texto",
     "string.base": "La contraseña no puede estar vacía",
     "string.pattern.base": "La contraseña debe tener entre 3 y 30 caracteres (letras y números)",
