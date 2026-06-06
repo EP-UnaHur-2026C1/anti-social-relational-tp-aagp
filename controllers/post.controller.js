@@ -13,16 +13,28 @@ const obtenerPosts = async (req,res) => {
     }
 }
 
-const obtenerPost = async (req,res) => {
-    const post = req.post;
-    res.status(200).json(post);
-}
+const obtenerPost = (req,res) => {
+    try {
+        const { id } = req.params
+        const post = req.post;
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(500).json({error: "Error al obtener el post."})
+    }
+} /* sin relaciones:
+    try {
+        const { id } = req.params
+        const post = req.post;
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(500).json({error: "Error al obtener el post."})
+    }
+*/
 
 const crearPost = async (req,res) => {
     try {
-        const { fecha, texto } = req.body;
+        const { texto } = req.body;
         const post = await Post.create({
-            fecha,
             texto
         });
         res.status(201).json(post);
