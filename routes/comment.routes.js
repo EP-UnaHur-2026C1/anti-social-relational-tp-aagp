@@ -6,7 +6,6 @@ const validarUserComentario = require("../middlewares/validarUserComentario");
 const validarPostComentario = require("../middlewares/validarPostComentario");
 const router = Router();
 
-
 /**
  * @swagger
  * /comments:
@@ -19,9 +18,27 @@ const router = Router();
  *         description: Lista de comments
  */
 router.get("/", commentController.obtenerComentarios)
+/**
+ * @swagger
+ * /comments/post/{postId}:
+ *   get:
+ *     summary: Obtener comentarios de un post
+ *     tags:
+ *       - Comments
+ *     parameters:
+ *       - in: path
+ *         name: postId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del post
+ *     responses:
+ *       200:
+ *         description: Lista de comentarios del post
+ *       404:
+ *         description: Post no encontrado
+ */
 router.get("/post/:postId", commentController.obtenerComentariosPorPost)
-router.get("/:id", validarComentarioId,commentController.obtenerComentario)
-router.post("/", validarUserComentario, validarPostComentario, validarComentario, commentController.crearComentario)
 /**
  * @swagger
  * /comments/{id}:
@@ -65,7 +82,7 @@ router.get("/:id", validarComentarioId,commentController.obtenerComentario)
  *       400:
  *         description: Error de validacion
  */
-router.post("/", /*validarUserComentario, validarPostComentario,*/ validarComentario, commentController.crearComentario)
+router.post("/", validarUserComentario, validarPostComentario, validarComentario, commentController.crearComentario)
 /**
  * @swagger
  * /comments/{id}:
