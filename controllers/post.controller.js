@@ -3,7 +3,22 @@ const { Post, PostImage, Tag } = require("../models")
 const obtenerPosts = async (req,res) => {
     try {
         const posts = await Post.findAll({
-            attributes: ["fecha", "texto"]
+            attributes: ["fecha", "texto", "userId"],
+            include: [
+                {
+                    model: PostImage,
+                    as: "images",
+                    attributes: ["url"]
+                },
+                {
+                    model: Tag,
+                    as: "tags",
+                    attributes: ["id", "nombre"],
+                    through: {
+                        attributes: []
+                    }
+                }
+            ]
         })
         res.status(200).json(posts);
     } catch (error) {
@@ -132,12 +147,72 @@ const obtenerImagenesDePost = async (req, res) => {
 }
 
 // TAGS
-const asociarTag = async (req, res) => {}
-const agregarTag = async (req, res) => {}
+const agregarTags = async (req, res) => {
+    try {
+        const post = req.post
+        const { tagsIds } = req.body
+        const tags = await Tag.findAll({
+            where: {
+                id: tagsIds
+            }
+        })
+        await post.setTags(tags);
+        res.status(200).json({ message: "Tags agregados con éxito."})
+    } catch (error) {
+        res.status(500).json({ error: "Error al agregar los tags."})
+    }
+}
 
-const eliminarTag = async (req, res) => {}
 
-const obtenerTags = async (req, res) => {}
+const asociarTag = async (req, res) => {
+    try {
+        const post = req.post
+        const { tagId } = req.params
+        const tag = await Tag.findByPk(tagId)
+        await post.addTag(tag)
+        res.status(200).json({message:"Tag asociado con éxito."})
+    } catch (error) {
+        res.status(500).json({error: "Error al asociar el Tag con el Post."})
+    }
+}
+
+const eliminarTag = async (req, res) => {
+    try {
+        const post = req.post
+        const { tagId } = req.params
+        const tag = await Tag.findByPk(tagId)
+        await post.removeTag(tag)
+        res.status(200).json({message:"Tag eliminado correctamente."})
+    } catch (error) {
+        res.status(500).json({error:"No fue posible eliminar el Tag del Post."})
+    }
+}
+
+const eliminarTodosLosTags = async (req, res) => {
+    try {
+        const post = req.post
+        const { tagsIds } = req.body
+        const tags = await Tag.findAll({
+            where: {
+                id: tagsIds
+            }
+        })
+        await post.removeTags(tags)
+        res.status(200).json({message:"Tags eliminados correctamente."})
+    } catch (error) {
+        res.status(500).json({error:"No fue posible eliminar todos los Tags del Post."})
+    }
+}
+
+const obtenerTags = async (req, res) => {
+    try {
+        const post = req.post
+        const tags = await post.getTags()
+        res.status(200).json(tags.map(t => t.nombre))
+    } catch (error) {
+        res.status(500).json({error:"Error al obtener todos los Tags del Post."})
+    }
+}
 
 
 
@@ -151,5 +226,10 @@ module.exports = {
     agregarImagen,
     eliminarImagen,
     eliminarTodasLasImagenesDelPost,
-    obtenerImagenesDePost
+    obtenerImagenesDePost,
+    obtenerTags,
+    agregarTags,
+    asociarTag,
+    eliminarTag,
+    eliminarTodosLosTags
 }
