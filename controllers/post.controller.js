@@ -1,4 +1,4 @@
-const { Post } = require("../models")
+const { Post, PostImage, Tag } = require("../models")
 
 const obtenerPosts = async (req,res) => {
     try {
@@ -14,22 +14,10 @@ const obtenerPosts = async (req,res) => {
 }
 
 const obtenerPost = (req,res) => {
-    try {
         const { id } = req.params
         const post = req.post;
         res.status(200).json(post);
-    } catch (error) {
-        res.status(500).json({error: "Error al obtener el post."})
-    }
-} /* sin relaciones:
-    try {
-        const { id } = req.params
-        const post = req.post;
-        res.status(200).json(post);
-    } catch (error) {
-        res.status(500).json({error: "Error al obtener el post."})
-    }
-*/
+}
 
 const crearPost = async (req,res) => {
     try {
@@ -71,10 +59,97 @@ const eliminarPost = async (req,res) => {
     }
 }
 
+
+
+// IMAGENES
+// al crear el post
+const crearPostConImagen = async (req, res) => {
+    try {
+        const { texto, userId, url } = req.body;
+        const post = await Post.create({
+            texto,
+            userId
+        });
+        const image = await PostImage.create({url})
+        await post.addPostImage(image)
+        res.status(201).json(post);
+    } catch (error) {
+        res.status(500).json({
+            error: "Error al crear el Post."
+        });
+    }
+}
+
+// post ya creado
+const agregarImagen = async (req, res) => {
+    try {
+        const { id } = req.params
+        const post = req.post
+        const { url } = req.body
+        const image = await PostImage.create({url})
+        await post.addPostImage(image)
+        res.status(200).json({message: "Imagen agregada con éxito."})
+    } catch (error) {
+        res.status(500).json({error: "Error al agregar al post."})
+    }
+}
+
+
+
+const eliminarImagen = async (req, res) => {
+    try {
+        const post = req.post
+        const { imagenesId } = req.params
+        const image = await PostImage.findByPk(imagenesId)
+        await post.removePostImage(image)
+        res.status(200).json({message: "Imagen eliminada del post con éxito."})
+    } catch (error) {
+        res.status(500).json({error:"Error al eliminar imagen del post."})
+    }
+}
+
+
+
+const eliminarTodasLasImagenesDelPost = async (req, res) => {
+    try {
+        const post = req.post
+        await post.removePostImages()
+        res.status(200).json({message: "Todas las imágenes han sido eliminadas del post."})
+    } catch (error) {
+        res.status(500).json({error:"Error al eliminar todas las imágenes del post."})
+    }
+}
+
+
+const obtenerImagenesDePost = async (req, res) => {
+    try {
+        const post = req.post
+        const images = await post.getPostImages()
+        res.status(200).json(images.map(i => i.url))
+    } catch (error) {
+        res.status(500).json({error: "Error al obtener las imágenes del post."})
+    }
+}
+
+// TAGS
+const asociarTag = async (req, res) => {}
+const agregarTag = async (req, res) => {}
+
+const eliminarTag = async (req, res) => {}
+
+const obtenerTags = async (req, res) => {}
+
+
+
 module.exports = {
     obtenerPosts,
     obtenerPost,
     crearPost,
     actualizarPost,
-    eliminarPost
+    eliminarPost,
+    crearPostConImagen,
+    agregarImagen,
+    eliminarImagen,
+    eliminarTodasLasImagenesDelPost,
+    obtenerImagenesDePost
 }
