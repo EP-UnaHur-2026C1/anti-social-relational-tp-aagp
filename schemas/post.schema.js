@@ -12,7 +12,15 @@ const schemaPost = Joi.object({
         "string.min": "La descripción es muy corta.",
         "string.max": "La descripción es muy larga.",
         "any.required": "La descripción es obligatoria."
-    })
+    }),
+    userId: Joi.number()
+    .integer()
+    .positive()
+    .required()
+    .messages({
+            "number.base": "El user debe ser un número.",
+            "any.required": "El autor del post es obligatorio."
+    }),
 });
 
 module.exports = schemaPost;

@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const postsController = require("../controllers/post.controller");
 const validarPost = require('../middlewares/validarPost');
-const validarPostId = require('../middlewares/validarPostId');
+const { validarPostIdConUser, validarPostId } = require('../middlewares/validarPostId');
 const router = Router();
 
 
@@ -37,7 +37,7 @@ router.get("/", postsController.obtenerPosts);
  *       404:
  *         description: post no encontrado
  */
-router.get("/:id", validarPostId, postsController.obtenerPost); // va con la relacion del Tag
+router.get("/:id", validarPostIdConUser, postsController.obtenerPost);
 /**
  * @swagger
  * /posts:
@@ -60,6 +60,7 @@ router.get("/:id", validarPostId, postsController.obtenerPost); // va con la rel
  *       400:
  *         description: Error de validacion
  */
+
 router.post("/", validarPost, postsController.crearPost);
 /**
  * @swagger
@@ -90,7 +91,7 @@ router.post("/", validarPost, postsController.crearPost);
  *       404:
  *         description: post no encontrado
  */
-router.put("/:id", validarPost, validarPostId, postsController.actualizarPost);
+router.put("/:id", validarPostId, validarPost, postsController.actualizarPost);
 /**
  * @swagger
  * /posts/{id}:
@@ -112,6 +113,5 @@ router.put("/:id", validarPost, validarPostId, postsController.actualizarPost);
  *         description: post no encontrado
  */
 router.delete("/:id", validarPostId, postsController.eliminarPost);
-
 
 module.exports = router;

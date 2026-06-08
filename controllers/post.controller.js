@@ -33,9 +33,10 @@ const obtenerPost = (req,res) => {
 
 const crearPost = async (req,res) => {
     try {
-        const { texto } = req.body;
+        const { texto, userId } = req.body;
         const post = await Post.create({
-            texto
+            texto,
+            userId
         });
         res.status(201).json(post);
     } catch (error) {
