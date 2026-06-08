@@ -1,4 +1,4 @@
-/*const { Post } = require("../models");
+const { Post } = require("../models");
 
 const validarPostComentario = async (req, res, next) => {
     try {
@@ -21,4 +21,4 @@ const validarPostComentario = async (req, res, next) => {
     }
 }
 
-module.exports = validarPostComentario;*/
+module.exports = validarPostComentario;
