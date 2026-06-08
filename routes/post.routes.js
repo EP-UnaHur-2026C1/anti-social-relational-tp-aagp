@@ -2,10 +2,9 @@ const { Router } = require("express");
 const postsController = require("../controllers/post.controller");
 const validarPost = require('../middlewares/validarPost');
 const { validarPostIdConUser, validarPostId } = require('../middlewares/validarPostId');
-const validarTagId = require('../middlewares/validarTagId')
+const { validarTagId } = require('../middlewares/validarTagId')
 const validarTag = require('../middlewares/validarTag')
 const router = Router();
-
 
 /**
  * @swagger
@@ -122,6 +121,5 @@ router.patch("/:id/tags", validarPostId, validarTag, postsController.agregarTags
 router.patch("/:id/tags/:tagId", validarPostId, validarTagId, postsController.agregarUnTagAPost)
 router.delete("/:id/tags/:tagId", validarPostId, validarTagId, postsController.quitarTagDePost)
 router.delete("/:id/tags", validarPostId, postsController.quitarTodosLosTagsDePost)
-
 
 module.exports = router;

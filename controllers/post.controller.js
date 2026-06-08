@@ -140,8 +140,8 @@ module.exports = {
     crearPost,
     actualizarPost,
     eliminarPost,
-    agregarUnTagAPost,
     agregarTagsAPost,
+    agregarUnTagAPost,
     quitarTagDePost,
     quitarTodosLosTagsDePost
 }
