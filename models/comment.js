@@ -26,6 +26,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+
+    visible: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
+    },
+    
     userId: DataTypes.INTEGER,
     postId: DataTypes.INTEGER
   }, {
