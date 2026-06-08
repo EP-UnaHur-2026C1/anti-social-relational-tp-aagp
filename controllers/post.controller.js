@@ -75,79 +75,8 @@ const eliminarPost = async (req,res) => {
 }
 
 
-
-// IMAGENES
-// al crear el post
-const crearPostConImagen = async (req, res) => {
-    try {
-        const { texto, userId, url } = req.body;
-        const post = await Post.create({
-            texto,
-            userId
-        });
-        const image = await PostImage.create({url})
-        await post.addPostImage(image)
-        res.status(201).json(post);
-    } catch (error) {
-        res.status(500).json({
-            error: "Error al crear el Post."
-        });
-    }
-}
-
-// post ya creado
-const agregarImagen = async (req, res) => {
-    try {
-        const { id } = req.params
-        const post = req.post
-        const { url } = req.body
-        const image = await PostImage.create({url})
-        await post.addPostImage(image)
-        res.status(200).json({message: "Imagen agregada con éxito."})
-    } catch (error) {
-        res.status(500).json({error: "Error al agregar al post."})
-    }
-}
-
-
-
-const eliminarImagen = async (req, res) => {
-    try {
-        const post = req.post
-        const { imagenesId } = req.params
-        const image = await PostImage.findByPk(imagenesId)
-        await post.removePostImage(image)
-        res.status(200).json({message: "Imagen eliminada del post con éxito."})
-    } catch (error) {
-        res.status(500).json({error:"Error al eliminar imagen del post."})
-    }
-}
-
-
-
-const eliminarTodasLasImagenesDelPost = async (req, res) => {
-    try {
-        const post = req.post
-        await post.removePostImages()
-        res.status(200).json({message: "Todas las imágenes han sido eliminadas del post."})
-    } catch (error) {
-        res.status(500).json({error:"Error al eliminar todas las imágenes del post."})
-    }
-}
-
-
-const obtenerImagenesDePost = async (req, res) => {
-    try {
-        const post = req.post
-        const images = await post.getPostImages()
-        res.status(200).json(images.map(i => i.url))
-    } catch (error) {
-        res.status(500).json({error: "Error al obtener las imágenes del post."})
-    }
-}
-
 // TAGS
-const agregarTags = async (req, res) => {
+const agregarTagsAPost = async (req, res) => {
     try {
         const post = req.post
         const { tagsIds } = req.body
@@ -164,7 +93,7 @@ const agregarTags = async (req, res) => {
 }
 
 
-const asociarTag = async (req, res) => {
+const agregarUnTagAPost = async (req, res) => {
     try {
         const post = req.post
         const { tagId } = req.params
@@ -176,19 +105,19 @@ const asociarTag = async (req, res) => {
     }
 }
 
-const eliminarTag = async (req, res) => {
+const quitarTagDePost = async (req, res) => {
     try {
         const post = req.post
         const { tagId } = req.params
         const tag = await Tag.findByPk(tagId)
         await post.removeTag(tag)
-        res.status(200).json({message:"Tag eliminado correctamente."})
+        res.status(200).json({message:"Se quitó el Tag del Post."})
     } catch (error) {
-        res.status(500).json({error:"No fue posible eliminar el Tag del Post."})
+        res.status(500).json({error:"No fue posible quitar el Tag del Post."})
     }
 }
 
-const eliminarTodosLosTags = async (req, res) => {
+const quitarTodosLosTagsDePost = async (req, res) => {
     try {
         const post = req.post
         const { tagsIds } = req.body
@@ -198,22 +127,11 @@ const eliminarTodosLosTags = async (req, res) => {
             }
         })
         await post.removeTags(tags)
-        res.status(200).json({message:"Tags eliminados correctamente."})
+        res.status(200).json({message:"Se quitaron todos los Tags del Post."})
     } catch (error) {
-        res.status(500).json({error:"No fue posible eliminar todos los Tags del Post."})
+        res.status(500).json({error:"No fue posible quitar todos los Tags del Post."})
     }
 }
-
-const obtenerTags = async (req, res) => {
-    try {
-        const post = req.post
-        const tags = await post.getTags()
-        res.status(200).json(tags.map(t => t.nombre))
-    } catch (error) {
-        res.status(500).json({error:"Error al obtener todos los Tags del Post."})
-    }
-}
-
 
 
 module.exports = {
@@ -222,14 +140,8 @@ module.exports = {
     crearPost,
     actualizarPost,
     eliminarPost,
-    crearPostConImagen,
-    agregarImagen,
-    eliminarImagen,
-    eliminarTodasLasImagenesDelPost,
-    obtenerImagenesDePost,
-    obtenerTags,
-    agregarTags,
-    asociarTag,
-    eliminarTag,
-    eliminarTodosLosTags
+    agregarUnTagAPost,
+    agregarTagsAPost,
+    quitarTagDePost,
+    quitarTodosLosTagsDePost
 }
