@@ -1,6 +1,6 @@
 const {PostImage, Post} = require('../models')
 
-const crearPostImage = async(req,res) =>{
+const crearImagen = async(req,res) =>{
     try {
         const {url,postId} = req.body
         const postImg = await PostImage.create({
@@ -14,7 +14,7 @@ const crearPostImage = async(req,res) =>{
         })
     }
 }
-const obtenerPostsImage = async(req,res)=>{
+const obtenerImagenes = async(req,res)=>{
     try {
         const postImg = await PostImage.findAll({
             attributes : ['url','postId'],
@@ -31,44 +31,43 @@ const obtenerPostsImage = async(req,res)=>{
         })
     }
 }
-const obtenerPostImage = async(req,res)=>{
+const obtenerUnaImagen = async(req,res)=>{
     const postImg = req.postImage;
     res.status(200).json(postImg)
 }
-const actualizarPostImg = async (req,res) =>{
+const actualizarImagen = async (req,res) =>{
     try {
         const {id} = req.params;
-        const {url,postId} = req.body;
+        const {url} = req.body;
         const postImage = req.postImage;
         await postImage.update({
             url,
-            postId
         });
         res.status(200).json(postImage)
     } catch (error) {
         res.status(500).json({
-            error: "Error al actualizar el postImage"
+            error: "Error al actualizar la imagen"
         })
     }
 }
-const eliminarPostImage = async(req,res) =>{
+const eliminarImagen = async(req,res) =>{
     try {
         const {id} = req.params;
         const postImage = req.postImage;
         await postImage.destroy(); 
         res.status(200).json({
-            message: "PostImage eliminado correctamente",
+            message: "Imagen  eliminada correctamente",
         })
     } catch (error) {
         res.status(500).json({
-            error: "Error al eliminar el postImage",
+            error: "Error al eliminar la imagen",
         });
     }
 }
 module.exports = {
-    crearPostImage,
-    eliminarPostImage,
-    obtenerPostsImage,
-    obtenerPostImage,
-    actualizarPostImg
+    crearImagen,
+    eliminarImagen,
+    obtenerImagenes,
+    obtenerUnaImagen,
+    actualizarImagen
 }

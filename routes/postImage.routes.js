@@ -16,7 +16,7 @@ const router = Router()
  *       200:
  *         description: Lista de postImages
  */
-router.get('/',postImageControllers.obtenerPostsImage)
+router.get('/',postImageControllers.obtenerImagenes)
 /**
  * @swagger
  * /postimage/{id}:
@@ -37,7 +37,7 @@ router.get('/',postImageControllers.obtenerPostsImage)
  *       404:
  *         description: PostImg no encontrado
  */
-router.get('/:id',validarPostImgId,postImageControllers.obtenerPostImage)
+router.get('/:id',validarPostImgId,postImageControllers.obtenerUnaImagen)
 /**
  * @swagger
  * /postimage:
@@ -60,7 +60,7 @@ router.get('/:id',validarPostImgId,postImageControllers.obtenerPostImage)
  *       400:
  *         description: Error de validacion
  */
-router.post('/',validarPostImg,postImageControllers.crearPostImage)
+router.post('/',validarPostImg,postImageControllers.crearImagen)
 /**
  * @swagger
  * /postimage/{id}:
@@ -81,7 +81,7 @@ router.post('/',validarPostImg,postImageControllers.crearPostImage)
  *       404:
  *         description: PostImage no encontrado
  */
-router.delete('/:id',validarPostImgId,postImageControllers.eliminarPostImage)
+router.delete('/:id',validarPostImgId,postImageControllers.eliminarImagen)
 /**
  * @swagger
  * /postimage/{id}:
@@ -111,6 +111,6 @@ router.delete('/:id',validarPostImgId,postImageControllers.eliminarPostImage)
  *       404:
  *         description: PostImage no encontrado
  */
-router.put('/:id',validarPostImg,validarPostImgId,postImageControllers.actualizarPostImg)
+router.put('/:id',validarPostImg,validarPostImgId,postImageControllers.actualizarImagen)
 
 module.exports = router;
