@@ -11,11 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      PostImage.belongsTo(models.Post,{
+        foreignKey: "postId",
+        as: "post"
+      })
     }
   }
   PostImage.init({
     url: DataTypes.STRING,
-    post_id: DataTypes.INTEGER
+    postId: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'PostImage',
