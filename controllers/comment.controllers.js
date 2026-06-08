@@ -1,8 +1,9 @@
-const { Comment } = require("../models");
+const { Comment, User } = require("../models");
+const { Op } = require("sequelize");
 
 const obtenerComentarios = async (req,res) => {
     try {
-        const comentarios = await Comment.findAll(/*
+        const comentarios = await Comment.findAll({
             include: [
                 {
                     model: User,
@@ -10,7 +11,7 @@ const obtenerComentarios = async (req,res) => {
                     attributes: ["id", "nickname"]
                 }
             ]    
-        */);
+        });
 
         res.status(200).json(comentarios);
 
@@ -26,13 +27,41 @@ const obtenerComentario = async (req,res) => {
     res.status(200).json(comentario);
 }
 
+const obtenerComentariosPorPost = async (req,res) => {
+    try {
+        const visibleMonths = Number(process.env.COMMENT_VISIBLE_MONTHS) || 6;
+        const fechaLimite = new Date();
+
+        fechaLimite.setMonth(
+            fechaLimite.getMonth() - visibleMonths
+        );
+
+        const comentarios = await Comment.findAll({
+            where: {
+                postId: req.params.postId,
+                visible: true,
+                createdAt: {
+                    [Op.gte]: fechaLimite,
+                }
+            }
+        });
+
+        res.status(200).json(comentarios);
+
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        });
+    }
+}
+
 const crearComentario = async (req,res) => {
     try {
-        const { content } = req.body;
+        const { content, userId, postId } = req.body;
         const comentario = await Comment.create({
-            content
-            //userId: req.user.id,
-            //postId: req.post.id
+            content,
+            userId,
+            postId
         });
 
         res.status(201).json(comentario);
@@ -82,6 +111,7 @@ const eliminarComentario = async (req,res) => {
 module.exports = {
     obtenerComentarios,
     obtenerComentario,
+    obtenerComentariosPorPost,
     crearComentario,
     actualizarComentario,
     eliminarComentario

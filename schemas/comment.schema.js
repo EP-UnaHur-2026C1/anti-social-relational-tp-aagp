@@ -14,7 +14,7 @@ const commentSchema = Joi.object({
             "any.required": "El comentario es obligatorio"
         }),
 
-    /*userId: Joi.number()
+    userId: Joi.number()
         .integer()
         .positive()
         .required()
@@ -34,7 +34,7 @@ const commentSchema = Joi.object({
             "number.integer": "El id del post debe ser un número entero",
             "number.positive": "El id del post debe ser mayor a 0",
             "any.required": "El id del post es obligatorio"
-        })*/
+        })
 });
 
 module.exports = commentSchema;

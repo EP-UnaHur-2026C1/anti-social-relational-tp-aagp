@@ -17,9 +17,7 @@ app.use(express.json());
 app.use("/comments", routerComment);
 app.use("/tag",routerTag);
 app.use("/postimage",routerPostImg)
-
 app.use("/posts", routerPosts);
-
 app.use("/users", routerUsers)
 
 app.listen(PORT, async () => {
