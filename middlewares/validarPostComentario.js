@@ -3,7 +3,7 @@
 const validarPostComentario = async (req, res, next) => {
     try {
         const { postId } = req.body;
-        const post = await User.findByPk(postId);
+        const post = await Post.findByPk(postId);
 
         if (!post) {
             return res.status(404).json({
