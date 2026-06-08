@@ -86,9 +86,9 @@ const agregarTagsAPost = async (req, res) => {
             }
         })
         await post.setTags(tags);
-        res.status(200).json({ message: "Tags agregados con éxito."})
+        res.status(200).json({ message: "Tags agregados con éxito." })
     } catch (error) {
-        res.status(500).json({ error: "Error al agregar los tags."})
+        res.status(500).json({ error: "Error al agregar los tags." })
     }
 }
 

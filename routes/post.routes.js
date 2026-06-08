@@ -38,7 +38,7 @@ router.get("/", postsController.obtenerPosts);
  *       404:
  *         description: post no encontrado
  */
-router.get("/:id", validarPostIdConUser, postsController.obtenerPost);
+router.get("/:id", validarPostId, postsController.obtenerPost);
 /**
  * @swagger
  * /posts:
@@ -117,7 +117,7 @@ router.delete("/:id", validarPostId, postsController.eliminarPost);
 
 
 // tags
-router.patch("/:id/tags", validarPostId, validarTag, postsController.agregarTagsAPost)
+router.patch("/:id/tags", validarPostId, postsController.agregarTagsAPost)
 router.patch("/:id/tags/:tagId", validarPostId, validarTagId, postsController.agregarUnTagAPost)
 router.delete("/:id/tags/:tagId", validarPostId, validarTagId, postsController.quitarTagDePost)
 router.delete("/:id/tags", validarPostId, postsController.quitarTodosLosTagsDePost)
