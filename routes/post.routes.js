@@ -114,12 +114,115 @@ router.put("/:id", validarPostId, validarPost, postsController.actualizarPost);
  *         description: post no encontrado
  */
 router.delete("/:id", validarPostId, postsController.eliminarPost);
-
-
 // tags
-router.patch("/:id/tags", validarPostId, postsController.agregarTagsAPost)
-router.patch("/:id/tags/:tagId", validarPostId, validarTagId, postsController.agregarUnTagAPost)
-router.delete("/:id/tags/:tagId", validarPostId, validarTagId, postsController.quitarTagDePost)
-router.delete("/:id/tags", validarPostId, postsController.quitarTodosLosTagsDePost)
+/**
+ * @swagger
+ * /posts/{id}/tag:
+ *   patch:
+ *     summary: Agregar múltiples tags a un post
+ *     tags:
+ *       - Posts
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del post
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               tagIds:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *             example:
+ *               tagIds: [1, 2, 3]
+ *     responses:
+ *       200:
+ *         description: Tags agregados con exito
+ *       404:
+ *         description: El post no fue encontrado
+ */
+router.patch("/:id/tag", validarPostId, postsController.agregarTagsAPost)
+ /**
+ * @swagger
+ * /posts/{id}/tag/{tagId}:
+ *   patch:
+ *     summary: Agregar un tag a un post
+ *     tags:
+ *       - Posts
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del post
+ *       - in: path
+ *         name: tagId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del tag
+ *     responses:
+ *       200:
+ *         description: Tag agregado al post con exito
+ *       404:
+ *         description: Post o Tag no encontrado
+ */
+router.patch("/:id/tag/:tagId", validarPostId, validarTagId, postsController.agregarUnTagAPost)
+/**
+ * @swagger
+ * /posts/{id}/tag/{tagId}:
+ *   delete:
+ *     summary: Eliminar un tag de un post
+ *     tags:
+ *       - Posts
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del post
+ *       - in: path
+ *         name: tagId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del tag
+ *     responses:
+ *       200:
+ *         description: Tag eliminado del post con exito
+ *       404:
+ *         description: Post o Tag no encontrado
+ */
+router.delete("/:id/tag/:tagId", validarPostId, validarTagId, postsController.quitarTagDePost)
+ /**
+ * @swagger
+ * /posts/{id}/tag:
+ *   delete:
+ *     summary: Eliminar todos los tags de un post
+ *     tags:
+ *       - Posts
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID del post
+ *     responses:
+ *       200:
+ *         description: Todos los tags fueron eliminados del post
+ *       404:
+ *         description: Post no encontrado
+ */
+router.delete("/:id/tag", validarPostId, postsController.quitarTodosLosTagsDePost)
 
 module.exports = router;
