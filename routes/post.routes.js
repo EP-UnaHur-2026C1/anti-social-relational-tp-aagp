@@ -2,8 +2,9 @@ const { Router } = require("express");
 const postsController = require("../controllers/post.controller");
 const validarPost = require('../middlewares/validarPost');
 const { validarPostIdConUser, validarPostId } = require('../middlewares/validarPostId');
+const { validarTagId } = require('../middlewares/validarTagId')
+const validarTag = require('../middlewares/validarTag')
 const router = Router();
-
 
 /**
  * @swagger
@@ -37,7 +38,7 @@ router.get("/", postsController.obtenerPosts);
  *       404:
  *         description: post no encontrado
  */
-router.get("/:id", validarPostIdConUser, postsController.obtenerPost);
+router.get("/:id", validarPostId, postsController.obtenerPost);
 /**
  * @swagger
  * /posts:
@@ -113,5 +114,12 @@ router.put("/:id", validarPostId, validarPost, postsController.actualizarPost);
  *         description: post no encontrado
  */
 router.delete("/:id", validarPostId, postsController.eliminarPost);
+
+
+// tags
+router.patch("/:id/tags", validarPostId, postsController.agregarTagsAPost)
+router.patch("/:id/tags/:tagId", validarPostId, validarTagId, postsController.agregarUnTagAPost)
+router.delete("/:id/tags/:tagId", validarPostId, validarTagId, postsController.quitarTagDePost)
+router.delete("/:id/tags", validarPostId, postsController.quitarTodosLosTagsDePost)
 
 module.exports = router;
