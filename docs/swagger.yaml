@@ -1,0 +1,610 @@
+openapi: 3.0.0
+
+info:
+  title: Trabajo AAGP
+  version: 1.0.0
+  description: Documentación de la API
+paths:
+  /tag:
+    get:
+      summary: Obtener todos los tags
+      tags:
+        - Tag
+      responses:
+        200:
+          description: Lista de tags
+
+    post:
+      summary: Crear un tag
+      tags:
+        - Tag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+      responses:
+        200:
+          description: Tag creado con exito
+        400:
+          description: Error de validacion
+
+  /tag/{id}:
+    get:
+      summary: Obtener un tag por ID
+      tags:
+        - Tag
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del tag
+      responses:
+        200:
+          description: Se encontro el Tag
+        404:
+          description: Tag no encontrado
+
+    put:
+      summary: Actualizar un tag
+      tags:
+        - Tag
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del tag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+      responses:
+        200:
+          description: Tag actualizado con exito
+        404:
+          description: Tag no encontrado
+
+    delete:
+      summary: Eliminar un tag
+      tags:
+        - Tag
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del tag
+      responses:
+        200:
+          description: Tag eliminado correctamente
+        404:
+          description: Tag no encontrado
+  /postimage:
+    get:
+      summary: Obtener todos los postImages
+      tags:
+        - PostImages
+      responses:
+        200:
+          description: Lista de postImages
+
+    post:
+      summary: Crear un postImage
+      tags:
+        - PostImages
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                postId:
+                  type: integer
+      responses:
+        200:
+          description: PostImg creado con exito
+        400:
+          description: Error de validacion
+
+  /postimage/{id}:
+    get:
+      summary: Obtener un postImage por ID
+      tags:
+        - PostImages
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del PostImage
+      responses:
+        200:
+          description: Se encontro el postImage
+        404:
+          description: PostImage no encontrado
+
+    put:
+      summary: Actualizar un PostImage
+      tags:
+        - PostImages
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del PostImage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+      responses:
+        200:
+          description: PostImage actualizado con exito
+        404:
+          description: PostImage no encontrado
+
+    delete:
+      summary: Eliminar un PostImage
+      tags:
+        - PostImages
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del PostImage
+      responses:
+        200:
+          description: PostImage eliminado correctamente
+        404:
+          description: PostImage no encontrado
+  /comments:
+    get:
+      summary: Obtener todos los comments
+      tags:
+        - Comments
+      responses:
+        200:
+          description: Lista de comments
+
+    post:
+      summary: Crear un comment
+      tags:
+        - Comments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                userId:
+                  type: integer
+                postId:
+                  type: integer
+      responses:
+        200:
+          description: Comment creado con exito
+        400:
+          description: Error de validacion
+
+  /comments/post/{postId}:
+    get:
+      summary: Obtener comentarios visibles de un post
+      tags:
+        - Comments
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema:
+            type: integer
+          description: ID del post
+      responses:
+        200:
+          description: Lista de comentarios del post
+        404:
+          description: Post no encontrado
+
+  /comments/{id}:
+    get:
+      summary: Obtener un comment por ID
+      tags:
+        - Comments
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del comment
+      responses:
+        200:
+          description: Se encontro el comment
+        404:
+          description: Comment no encontrado
+
+    put:
+      summary: Actualizar un comment
+      tags:
+        - Comments
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        200:
+          description: Comment actualizado con exito
+        404:
+          description: Comment no encontrado
+
+    delete:
+      summary: Eliminar un comment
+      tags:
+        - Comments
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del comment
+      responses:
+        200:
+          description: Comment eliminado correctamente
+        404:
+          description: Comment no encontrado
+  /users:
+    get:
+      summary: Obtener todos los users
+      tags:
+        - Users
+      responses:
+        200:
+          description: Lista de users
+
+    post:
+      summary: Crear un user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nickname
+                - email
+                - password
+              properties:
+                nickname:
+                  type: string
+                  example: "juan123"
+                email:
+                  type: string
+                  example: "juan@gmail.com"
+                password:
+                  type: string
+                  example: "123456"
+      responses:
+        200:
+          description: User creado con exito
+        400:
+          description: Error de validacion
+
+  /users/{id}:
+    get:
+      summary: Obtener un user por ID
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del user
+      responses:
+        200:
+          description: Se encontro el user
+        404:
+          description: User no encontrado
+
+    put:
+      summary: Actualizar un user
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nickname:
+                  type: string
+                  example: "juan123"
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: User actualizado con exito
+        400:
+          description: Error de validacion
+        404:
+          description: User no encontrado
+
+    delete:
+      summary: Eliminar un user
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del user
+      responses:
+        200:
+          description: User eliminado correctamente
+        404:
+          description: User no encontrado
+
+  /posts:
+    get:
+      summary: Obtener todos los posts
+      tags:
+        - Posts
+      responses:
+        200:
+          description: Lista de posts
+
+    post:
+      summary: Crear un post
+      tags:
+        - Posts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                texto:
+                  type: string
+                  example: "Mi primer post"
+                userId:
+                  type: integer
+                  example: 1
+      responses:
+        200:
+          description: Post creado con exito
+        400:
+          description: Error de validacion
+
+  /posts/{id}:
+    get:
+      summary: Obtener un post por ID
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del post
+      responses:
+        200:
+          description: Se encontro el post
+        404:
+          description: Post no encontrado
+
+    put:
+      summary: Actualizar un post
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                texto:
+                  type: string
+                  example: "Mi primer post"
+                userId:
+                  type: integer
+                  example: 1
+      responses:
+        200:
+          description: Post actualizado con exito
+        404:
+          description: Post no encontrado
+
+    delete:
+      summary: Eliminar un post
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del post
+      responses:
+        200:
+          description: Post eliminado correctamente
+        404:
+          description: Post no encontrado
+
+  /posts/{id}/tag:
+    patch:
+      summary: Asociar multiples tags a un post
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tagsIds
+              properties:
+                tagsIds:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        200:
+          description: Los tags fueron asociados correctamente al post
+        400:
+          description: Debe enviar al menos un tag
+        404:
+          description: Post no encontrado
+
+    delete:
+      summary: Eliminar multiples tags de un post
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tagsIds
+              properties:
+                tagsIds:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        200:
+          description: Los tags fueron eliminados correctamente del post
+        400:
+          description: Debe enviar al menos un tag
+        404:
+          description: Post no encontrado
+
+  /posts/{id}/tag/{tagId}:
+    patch:
+      summary: Agregar un tag a un post
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del post
+        - in: path
+          name: tagId
+          required: true
+          schema:
+            type: integer
+          description: ID del tag
+      responses:
+        200:
+          description: Tag agregado al post con exito
+        404:
+          description: Post o Tag no encontrado
+
+    delete:
+      summary: Eliminar un tag de un post
+      tags:
+        - Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del post
+        - in: path
+          name: tagId
+          required: true
+          schema:
+            type: integer
+          description: ID del tag
+      responses:
+        200:
+          description: Tag eliminado del post con exito
+        404:
+          description: Post o Tag no encontrado
