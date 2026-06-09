@@ -1,8 +1,8 @@
-const {PostImage, Post} = require('../models')
+const { PostImage, Post } = require('../models')
 
-const crearImagen = async(req,res) =>{
+const crearImagen = async (req,res) =>{
     try {
-        const {url,postId} = req.body
+        const { url, postId } = req.body
         const postImg = await PostImage.create({
             url,
             postId
@@ -15,7 +15,7 @@ const crearImagen = async(req,res) =>{
     }
 }
 
-const obtenerImagenes = async(req,res)=>{
+const obtenerImagenes = async (req,res)=>{
     try {
         const postImg = await PostImage.findAll({
             attributes : ['id','url','postId'],
@@ -33,15 +33,15 @@ const obtenerImagenes = async(req,res)=>{
     }
 }
 
-const obtenerUnaImagen = async(req,res)=>{
+const obtenerUnaImagen = async (req,res)=>{
     const postImg = req.postImage;
     res.status(200).json(postImg)
 }
 
 const actualizarImagen = async (req,res) =>{
     try {
-        const {id} = req.params;
-        const {url} = req.body;
+        const { id } = req.params;
+        const { url } = req.body;
         const postImage = req.postImage;
         await postImage.update({
             url,
@@ -54,9 +54,9 @@ const actualizarImagen = async (req,res) =>{
     }
 }
 
-const eliminarImagen = async(req,res) =>{
+const eliminarImagen = async (req,res) =>{
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const postImage = req.postImage;
         await postImage.destroy(); 
         res.status(200).json({

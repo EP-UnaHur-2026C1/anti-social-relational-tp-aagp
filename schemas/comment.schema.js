@@ -13,7 +13,6 @@ const commentSchema = Joi.object({
             "string.max": "El comentario no puede superar los 500 caracteres",
             "any.required": "El comentario es obligatorio"
         }),
-
     userId: Joi.number()
         .integer()
         .positive()
@@ -24,7 +23,6 @@ const commentSchema = Joi.object({
             "number.positive": "El id del usuario debe ser mayor a 0",
             "any.required": "El id del usuario es obligatorio"
         }),
-
     postId: Joi.number()
         .integer()
         .positive()

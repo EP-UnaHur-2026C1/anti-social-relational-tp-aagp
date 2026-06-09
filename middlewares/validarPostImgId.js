@@ -1,8 +1,8 @@
 const { PostImage, Post } = require('../models')
 
-const validarPostImgId = async (req,res,next) =>{
+const validarPostImgId = async (req,res,next) => {
     try {
-        const {id} = req.params
+        const { id } = req.params
         const postimage = await PostImage.findByPk(id, {
             attributes:["id","url","postId"],
             include:[
@@ -14,7 +14,7 @@ const validarPostImgId = async (req,res,next) =>{
             ]
         })
 
-        if(!postimage){
+        if (!postimage) {
             return res.status(404).json({message: "PostImage no encontrado"})
         }
 

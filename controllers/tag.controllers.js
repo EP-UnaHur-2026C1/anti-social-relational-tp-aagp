@@ -1,8 +1,8 @@
 const {Tag, Post} = require('../models')
 
-const crearTag = async(req,res) =>{
+const crearTag = async (req,res) => {
     try {
-        const {nombre} = req.body
+        const { nombre } = req.body
         const tag = await  Tag.create({
             nombre
         })
@@ -14,7 +14,7 @@ const crearTag = async(req,res) =>{
     }
 }
 
-const obtenerTags = async (req,res)=>{
+const obtenerTags = async (req,res) => {
     try {
         const tags = await Tag.findAll({
             attributes : ['id','nombre'],
@@ -35,15 +35,15 @@ const obtenerTags = async (req,res)=>{
     }
 }
 
-const obtenerTag = async(req,res) =>{
+const obtenerTag = async (req,res) => {
     const tag = req.tag;
     res.status(200).json(tag);
 }
 
-const actualizarTag = async (req,res) =>{
+const actualizarTag = async (req,res) => {
     try {
-        const {id} = req.params;
-        const{nombre} = req.body;
+        const { id } = req.params;
+        const { nombre } = req.body;
         const tag = req.tag;
         await tag.update({
             nombre
@@ -56,9 +56,9 @@ const actualizarTag = async (req,res) =>{
     }
 }
 
-const eliminarTag = async(req,res) => {
+const eliminarTag = async (req,res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const tag = req.tag;
         await tag.destroy();
         res.status(200).json({

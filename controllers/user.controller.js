@@ -68,4 +68,10 @@ const eliminarUser = async (req, res) => {
 };
 
 
-module.exports = { obtenerUsers, obtenerUser, crearUser, actualizarUser, eliminarUser };
+module.exports = { 
+  obtenerUsers, 
+  obtenerUser, 
+  crearUser, 
+  actualizarUser, 
+  eliminarUser 
+};

@@ -6,7 +6,6 @@ const validarUserComentario = require("../middlewares/validarUserComentario");
 const validarPostComentario = require("../middlewares/validarPostComentario");
 const router = Router();
 
-
 router.get("/", commentController.obtenerComentarios)
 router.get("/post/:postId", commentController.obtenerComentariosPorPost)
 router.get("/:id", validarComentarioId,commentController.obtenerComentario)

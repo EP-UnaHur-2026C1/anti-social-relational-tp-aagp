@@ -6,8 +6,8 @@ const router = Router();
 
 router.get("/", usrCtrl.obtenerUsers);
 router.get("/:id", validarUserId, usrCtrl.obtenerUser);
-router.post("/",validarUser, usrCtrl.crearUser);
+router.post("/", validarUser, usrCtrl.crearUser);
 router.put("/:id", validarUserId, validarUser, usrCtrl.actualizarUser);
-router.delete("/:id",validarUserId, usrCtrl.eliminarUser);
+router.delete("/:id", validarUserId, usrCtrl.eliminarUser);
 
 module.exports = router;

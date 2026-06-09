@@ -1,6 +1,6 @@
 const { Tag, Post }  = require('../models') 
 
-const validarTagId = async (req,res,next) =>{
+const validarTagId = async (req,res,next) => {
     try {
         const { id } = req.params;
         const tag =  await Tag.findByPk(id, {
@@ -17,7 +17,7 @@ const validarTagId = async (req,res,next) =>{
             ]
         })
 
-        if(!tag){
+        if (!tag) {
             return res.status(400).json({message: "Tag no encontrado"})
         }
         
