@@ -7,7 +7,7 @@ const validarTag = require('../middlewares/validarTag')
 const validarTagsPost = require("../middlewares/validarTagsPost")
 const router = Router();
 
-
+//eliminando los comentarios
 router.get("/", postsController.obtenerPosts);
 router.get("/:id", validarPostId, postsController.obtenerPost);
 router.post("/", validarPost, postsController.crearPost);
