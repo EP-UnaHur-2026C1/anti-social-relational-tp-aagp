@@ -7,7 +7,6 @@ const routerComment = require("./routes/comment.routes");
 const routerTag = require("./routes/tag.routes")
 const routerPostImg = require("./routes/postImage.routes")
 const routerPosts = require("./routes/post.routes");
-
 const routerUsers = require("./routes/users.routes")
 
 require("dotenv").config();

@@ -4,6 +4,13 @@ const { Op } = require("sequelize");
 const obtenerComentarios = async (req,res) => {
     try {
         const comentarios = await Comment.findAll({
+            attributes: [
+                "id",
+                "content",
+                "visible",
+                "userId",
+                "postId"
+            ],
             include: [
                 {
                     model: User,
@@ -37,13 +44,27 @@ const obtenerComentariosPorPost = async (req,res) => {
         );
 
         const comentarios = await Comment.findAll({
+            attributes: [
+                "id",
+                "content",
+                "visible",
+                "userId",
+                "postId"
+            ],
             where: {
                 postId: req.params.postId,
                 visible: true,
                 createdAt: {
                     [Op.gte]: fechaLimite,
                 }
-            }
+            },
+            include: [
+                {
+                    model: User,
+                    as: "user",
+                    attributes: ["id", "nickname"]
+                }
+            ]
         });
 
         res.status(200).json(comentarios);

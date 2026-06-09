@@ -14,14 +14,15 @@ const crearImagen = async(req,res) =>{
         })
     }
 }
+
 const obtenerImagenes = async(req,res)=>{
     try {
         const postImg = await PostImage.findAll({
-            attributes : ['url','postId'],
+            attributes : ['id','url','postId'],
             include:{
                 model: Post,
                 as: "post",
-                attributes: ['texto','fecha']
+                attributes: ['id','texto','fecha']
             }
         })
         res.status(200).json(postImg)
@@ -31,10 +32,12 @@ const obtenerImagenes = async(req,res)=>{
         })
     }
 }
+
 const obtenerUnaImagen = async(req,res)=>{
     const postImg = req.postImage;
     res.status(200).json(postImg)
 }
+
 const actualizarImagen = async (req,res) =>{
     try {
         const {id} = req.params;
@@ -50,6 +53,7 @@ const actualizarImagen = async (req,res) =>{
         })
     }
 }
+
 const eliminarImagen = async(req,res) =>{
     try {
         const {id} = req.params;
@@ -64,6 +68,7 @@ const eliminarImagen = async(req,res) =>{
         });
     }
 }
+
 module.exports = {
     crearImagen,
     eliminarImagen,

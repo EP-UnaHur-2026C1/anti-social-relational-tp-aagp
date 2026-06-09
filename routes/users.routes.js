@@ -50,14 +50,25 @@ router.get("/:id", validarUserId, usrCtrl.obtenerUser);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *              - nickname
+ *              - email
+ *              - password
  *             properties:
- *               nombre:
+ *               nickname:
  *                 type: string
+ *                 example: "juan123"
+ *               email:
+ *                 type: string
+ *                 example: "juan@gmail.com"
+ *               password:
+ *                 type: string
+ *                 example: "123456"
  *     responses:
  *       200:
  *         description: user creado con exito
  *       400:
- *         description: Error de validacion
+ *         description: Error de validación
  */
 router.post("/",validarUser, usrCtrl.crearUser);
 /**
@@ -81,11 +92,20 @@ router.post("/",validarUser, usrCtrl.crearUser);
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
+ *               nickname:
  *                 type: string
+ *                 example: "juan123"
+ *               email:
+ *                 type: string
+ *                 example: "juan@gmail.com"
+ *               password:
+ *                 type: string
+ *                 example: "123456"
  *     responses:
  *       200:
  *         description: user actualizado con exito
+ *       400:
+ *         description: Error de validación
  *       404:
  *         description: user no encontrado
  */

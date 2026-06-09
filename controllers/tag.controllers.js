@@ -13,14 +13,18 @@ const crearTag = async(req,res) =>{
         })
     }
 }
+
 const obtenerTags = async (req,res)=>{
     try {
         const tags = await Tag.findAll({
-            attributes : ['nombre'],
+            attributes : ['id','nombre'],
             include: {
                 model: Post,
                 as: "posts",
-                attributes: ['texto','fecha']
+                attributes: ['id','texto','fecha'],
+                through: {
+                    attributes: []
+                }
             }
         })
         res.status(200).json(tags)
@@ -30,6 +34,7 @@ const obtenerTags = async (req,res)=>{
         })
     }
 }
+
 const obtenerTag = async(req,res) =>{
     const tag = req.tag;
     res.status(200).json(tag);
@@ -50,6 +55,7 @@ const actualizarTag = async (req,res) =>{
         })
     }
 }
+
 const eliminarTag = async(req,res) => {
     try {
         const {id} = req.params;
@@ -64,6 +70,7 @@ const eliminarTag = async(req,res) => {
         })
     }
 }
+
 module.exports = {
     crearTag,
     obtenerTags,

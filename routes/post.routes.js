@@ -4,6 +4,7 @@ const validarPost = require('../middlewares/validarPost');
 const { validarPostIdConUser, validarPostId } = require('../middlewares/validarPostId');
 const { validarTagId } = require('../middlewares/validarTagId')
 const validarTag = require('../middlewares/validarTag')
+const validarTagsPost = require("../middlewares/validarTagsPost")
 const router = Router();
 
 /**
@@ -43,7 +44,7 @@ router.get("/:id", validarPostId, postsController.obtenerPost);
  * @swagger
  * /posts:
  *   post:
- *     summary: Crear un posts
+ *     summary: Crear un post
  *     tags:
  *       - Posts
  *     requestBody:
@@ -53,15 +54,18 @@ router.get("/:id", validarPostId, postsController.obtenerPost);
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
+ *               texto:
  *                 type: string
+ *                 example: "Mi primer post"
+ *               userId:
+ *                 type: integer
+ *                 example: 1 
  *     responses:
  *       200:
  *         description: post creado con exito
  *       400:
  *         description: Error de validacion
  */
-
 router.post("/", validarPost, postsController.crearPost);
 /**
  * @swagger
@@ -84,8 +88,12 @@ router.post("/", validarPost, postsController.crearPost);
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
+ *               texto:
  *                 type: string
+ *                 example: "Mi primer post"
+ *               userId:
+ *                 type: integer
+ *                 example: 1 
  *     responses:
  *       200:
  *         description: post actualizado con exito
@@ -119,7 +127,7 @@ router.delete("/:id", validarPostId, postsController.eliminarPost);
  * @swagger
  * /posts/{id}/tag:
  *   patch:
- *     summary: Agregar múltiples tags a un post
+ *     summary: Asociar múltiples tags a un post
  *     tags:
  *       - Posts
  *     parameters:
@@ -135,20 +143,23 @@ router.delete("/:id", validarPostId, postsController.eliminarPost);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - tagsIds
  *             properties:
- *               tagIds:
+ *               tagsIds:
  *                 type: array
  *                 items:
  *                   type: integer
- *             example:
- *               tagIds: [1, 2, 3]
+ *                 example: [1, 2]
  *     responses:
  *       200:
- *         description: Tags agregados con exito
+ *         description: Los tags fueron asociados correctamente al post
+ *       400:
+ *         description: Debe enviar al menos un tag
  *       404:
- *         description: El post no fue encontrado
+ *         description: Post no encontrado
  */
-router.patch("/:id/tag", validarPostId, postsController.agregarTagsAPost)
+router.patch("/:id/tag", validarPostId, validarTagsPost, postsController.agregarTagsAPost)
  /**
  * @swagger
  * /posts/{id}/tag/{tagId}:
@@ -203,11 +214,11 @@ router.patch("/:id/tag/:tagId", validarPostId, validarTagId, postsController.agr
  *         description: Post o Tag no encontrado
  */
 router.delete("/:id/tag/:tagId", validarPostId, validarTagId, postsController.quitarTagDePost)
- /**
+/**
  * @swagger
  * /posts/{id}/tag:
  *   delete:
- *     summary: Eliminar todos los tags de un post
+ *     summary: Eliminar múltiples tags de un post
  *     tags:
  *       - Posts
  *     parameters:
@@ -217,12 +228,28 @@ router.delete("/:id/tag/:tagId", validarPostId, validarTagId, postsController.qu
  *         schema:
  *           type: integer
  *         description: ID del post
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - tagsIds
+ *             properties:
+ *               tagsIds:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 2, 3]
  *     responses:
  *       200:
- *         description: Todos los tags fueron eliminados del post
+ *         description: Los tags fueron eliminados correctamente del post
+ *       400:
+ *         description: Debe enviar al menos un tag
  *       404:
  *         description: Post no encontrado
  */
-router.delete("/:id/tag", validarPostId, postsController.quitarTodosLosTagsDePost)
+router.delete("/:id/tag", validarPostId, validarTagsPost, postsController.quitarTodosLosTagsDePost)
 
 module.exports = router;

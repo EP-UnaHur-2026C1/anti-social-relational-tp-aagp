@@ -1,14 +1,19 @@
-const { Post, PostImage, Tag } = require("../models")
+const { Post, PostImage, Tag, User } = require("../models")
 
 const obtenerPosts = async (req,res) => {
     try {
         const posts = await Post.findAll({
-            attributes: ["fecha", "texto", "userId"],
+            attributes: ["id", "fecha", "texto", "userId"],
             include: [
+                {
+                    model: User,
+                    as: "user",
+                    attributes: ["id", "nickname"]
+                },
                 {
                     model: PostImage,
                     as: "images",
-                    attributes: ["url"]
+                    attributes: ["id", "url"]
                 },
                 {
                     model: Tag,
@@ -19,7 +24,8 @@ const obtenerPosts = async (req,res) => {
                     }
                 }
             ]
-        })
+        });
+
         res.status(200).json(posts);
     } catch (error) {
         res.status(500).json({
@@ -29,9 +35,9 @@ const obtenerPosts = async (req,res) => {
 }
 
 const obtenerPost = (req,res) => {
-        const { id } = req.params
-        const post = req.post;
-        res.status(200).json(post);
+    const { id } = req.params
+    const post = req.post;
+    res.status(200).json(post);
 }
 
 const crearPost = async (req,res) => {
@@ -108,12 +114,13 @@ const agregarUnTagAPost = async (req, res) => {
 const quitarTagDePost = async (req, res) => {
     try {
         const post = req.post
-        const { tagId } = req.params
-        const tag = await Tag.findByPk(tagId)
+        const tag = req.tag;
         await post.removeTag(tag)
         res.status(200).json({message:"Se quitó el Tag del Post."})
     } catch (error) {
-        res.status(500).json({error:"No fue posible quitar el Tag del Post."})
+        res.status(500).json({
+            error:"No fue posible quitar el Tag del Post."
+        })
     }
 }
 
@@ -129,10 +136,11 @@ const quitarTodosLosTagsDePost = async (req, res) => {
         await post.removeTags(tags)
         res.status(200).json({message:"Se quitaron todos los Tags del Post."})
     } catch (error) {
-        res.status(500).json({error:"No fue posible quitar todos los Tags del Post."})
+        res.status(500).json({
+            error:"No fue posible quitar todos los Tags del Post."
+        })
     }
 }
-
 
 module.exports = {
     obtenerPosts,

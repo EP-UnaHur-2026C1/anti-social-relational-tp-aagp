@@ -4,7 +4,6 @@ const {validarPostImgId} = require('../middlewares/validarPostImgId')
 const validarPostImg = require('../middlewares/validarPostImg')
 const router = Router()
 
-
 /**
  * @swagger
  * /postimage:
@@ -52,8 +51,10 @@ router.get('/:id',validarPostImgId,postImageControllers.obtenerUnaImagen)
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
+ *               url:
  *                 type: string
+ *               postId:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: PostImg creado con exito
@@ -103,7 +104,7 @@ router.delete('/:id',validarPostImgId,postImageControllers.eliminarImagen)
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
+ *               url:
  *                 type: string
  *     responses:
  *       200:

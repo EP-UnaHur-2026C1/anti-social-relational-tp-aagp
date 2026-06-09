@@ -22,7 +22,7 @@ router.get("/", commentController.obtenerComentarios)
  * @swagger
  * /comments/post/{postId}:
  *   get:
- *     summary: Obtener comentarios de un post
+ *     summary: Obtener comentarios visibles de un post
  *     tags:
  *       - Comments
  *     parameters:
@@ -74,8 +74,12 @@ router.get("/:id", validarComentarioId,commentController.obtenerComentario)
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
+ *               content:
  *                 type: string
+ *               userId:
+ *                 type: integer
+ *               postId:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: comment creado con exito
@@ -104,7 +108,7 @@ router.post("/", validarUserComentario, validarPostComentario, validarComentario
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
+ *               content:
  *                 type: string
  *     responses:
  *       200:
